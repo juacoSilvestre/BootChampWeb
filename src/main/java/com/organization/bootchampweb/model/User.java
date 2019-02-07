@@ -17,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private Integer id;
     @NotNull(message = "Name cannot be null")
     private String name;
     @NotNull(message = "Email cannot be null")

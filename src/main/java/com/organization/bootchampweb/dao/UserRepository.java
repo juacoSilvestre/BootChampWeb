@@ -20,4 +20,6 @@ public interface UserRepository extends CrudRepository<User, Integer>, JpaReposi
     boolean existsByEmail(String email);
 
     boolean existsByUserName(String email);
+
+    void deleteById(Integer id);
 }
