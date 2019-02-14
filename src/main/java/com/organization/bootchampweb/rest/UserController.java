@@ -2,13 +2,17 @@ package com.organization.bootchampweb.rest;
 
 import com.organization.bootchampweb.model.User;
 import com.organization.bootchampweb.service.SecurePassword;
+import com.organization.bootchampweb.service.VerifyExistence;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.beanvalidation.MethodValidationInterceptor;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.organization.bootchampweb.dao.UserRepository;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController    // This means that this class is a Controller
@@ -19,7 +23,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private SecurePassword securePassword;
-
+    @Autowired
+    VerifyExistence verifyExistence;
 
     @GetMapping(path = "/all")
     public @ResponseBody
@@ -29,31 +34,25 @@ public class UserController {
     }
     @GetMapping(path = "/getById")
     public @ResponseBody User getById(@RequestParam Long id){
-        // This returns a JSON or XML with the id user
         return userRepository.findById(id);
     }
     @GetMapping(path = "/getByEmail")
     public @ResponseBody User getByEmail(@RequestParam String email){
-        // This returns a JSON or XML with the id user
         return userRepository.findByEmail(email);
     }
     @GetMapping(path = "/getByUserName")
     public @ResponseBody User getByUserName(@RequestParam String useraName){
-        // This returns a JSON or XML with the id user
         return userRepository.findByUserName(useraName);
     }
+
+
     @PostMapping("/addUser")
-    public User createUser(@RequestBody User user){
-
-        if(userRepository.existsByEmail(user.getEmail())){
-            throw new RuntimeException("The email already exist");}
-
-        if(userRepository.existsByUserName(user.getUserName())){
-            throw new RuntimeException("The Username already exist");}
-
-        String newPass=securePassword.securePassword(user.getPassword(), "Base64");
-        user.setPassword(newPass);
-        return userRepository.save(user);
+    public User createUser(@Valid @RequestBody User user){
+    verifyExistence.verifyByEmail(userRepository,user);
+    verifyExistence.verifyByUserName(userRepository,user);
+    String newPass=securePassword.securePassword(user.getPassword(), "Base64");
+    user.setPassword(newPass);
+    return userRepository.save(user);
     }
     @DeleteMapping("/deleteById")
     public @ResponseBody void deleteById(@RequestParam Integer id){
@@ -61,9 +60,13 @@ public class UserController {
     }
 
     @PutMapping(path="/modify")
-    public @ResponseBody User modifyUser(@RequestBody User user ) {
+    public @ResponseBody User modifyUser(@Valid @RequestBody User user ) {
+        //verifyExistence.MethodValidationPostProcessor(userRepository, user);
+        verifyExistence.correctUserModifyUserName(userRepository, user);
+        verifyExistence.correctUserModifyEmail(userRepository, user);
+        String newPass=securePassword.securePassword(user.getPassword(), "Base64");
+        user.setPassword(newPass);
         return userRepository.save(user);
-
 
     }
 }

@@ -1,24 +1,44 @@
 package com.organization.bootchampweb.model;
 
-import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
+import javax.persistence.Entity;
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
+
 
 @Data
 @Entity
-public class Game {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
-    @NotNull(message = "Name cannot be null")
-    private String name;
-    private String description;
-    private float calification;
-    private float price;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Game extends Item implements Serializable {
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    public User userGames;
+
+    @DecimalMax(value = "10.0", message="Calification must be between 0.0 and 10.0")
+    @DecimalMin(value = "0.0", message="Calification must be between 0.0 and 10.0")
+    private float calification;
+    @DecimalMin(value = "0.0", message="The price should not be less than 0")
+    private float price;
+    private String genre;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mod_id")
+    private Set<Mod> mod;
 }
+
+  /*  @ManyToMany
+    @JoinTable(
+   name="UserAndGames",
+   joinColumns=@JoinColumn(name="games_id", referencedColumnName="id"),
+   inverseJoinColumns=@JoinColumn(name="users_id",referencedColumnName="id"))
+ private List<User> users;
+*/
