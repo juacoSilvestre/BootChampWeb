@@ -29,22 +29,21 @@ public class UserItem implements Serializable {
     @Column(updatable = false, nullable = false)
    private Long id;
 
-    //@JsonIgnore
-    @JsonBackReference(value = "user")
+   // @JsonIgnore
+    //@JsonBackReference(value = "user")
     //@JsonManagedReference("user")
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn
 
     //@JsonProperty("users")
     private User users;
-    @JsonBackReference(value = "game")
+    //@JsonBackReference(value = "game")
     //@JsonIgnore
     //@JsonManagedReference("game")
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn
-
     //@JsonProperty("games")
-    private Game games;
+    private Item items;
 }
 /*  //@JsonSerialize
    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Transactional(propagation= Propagation.REQUIRED)
+//@Transactional//(propagation= Propagation.REQUIRED)
 @RestController
 @RequestMapping(path="/transaction")
 public class TransactionController {
@@ -47,11 +47,12 @@ public class TransactionController {
     public ResponseEntity createTransaction(@Valid @RequestBody  UserItem transaction){
         try{
             transactionRepository.save(transaction);
+            return ResponseEntity.ok("the transaction has been saved");
             //ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The transaction has been done");
         }catch (RuntimeException e){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The transaction cannot be done");
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The transaction cannot be done");
         }
-        return ResponseEntity.ok("the transaction has been saved");
+
     }
     @PutMapping(path="/modify")
     public @Valid @ResponseBody ResponseEntity modifyTransaction(@Valid @RequestBody UserItem transaction ) {
