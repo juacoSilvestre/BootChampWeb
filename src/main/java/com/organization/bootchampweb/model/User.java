@@ -20,6 +20,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+
 public class User extends BasedNamedEntity implements Serializable {
 
     @NotNull(message = "Email cannot be null")
@@ -37,10 +38,10 @@ public class User extends BasedNamedEntity implements Serializable {
     private Date birthdate;
 
     //@JsonBackReference("user")
-    @JsonManagedReference("user")
-    // @JsonIgnore
+    //@JsonManagedReference("user")
+    @JsonIgnore
     @OneToMany(mappedBy = "users" ,cascade = CascadeType.ALL)
-    private Set<UserItem> userItems;
+    private List<UserItem> userItems;
 
 }
 /*  @JsonBackReference //VER!! preventivo para evitar recursividad

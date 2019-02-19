@@ -1,21 +1,23 @@
 package com.organization.bootchampweb.service;
 
-import com.organization.bootchampweb.model.Game;
-import com.organization.bootchampweb.model.User;
-import com.organization.bootchampweb.model.UserItem;
-import org.springframework.http.ResponseEntity;
+import com.organization.bootchampweb.model.*;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
 
 @Repository
 public class UserMessage {
+
     public String showUser(User user){
         String str = "";
-        try {
-        for (UserItem item : user.getUserItems()){
-            str+="Name: "+item.getGames().getName()+"/n"+"Price: "+item.getGames().getPrice()+"/n"+
+/*       try {
+
+            for (UserItem item :user.getUserItems()){
+            str+="Name: "+item.getItems().+"/n"+"Price: "+item.+"/n"+
                     "Calification: "+item.getGames().getCalification()+"/n"+"Genre: "+item.getGames().getGenre()+"/n"+
                     "Creation date: "+item.getGames().getCreationDate()+"/n"+"Edition Date: "+item.getGames().getEditionDate()+"/n"+
                     "Deletion date: "+item.getGames().getDeletionDate()+"/n"+"Mobile description: "+item.getGames().getDescription().getMobileDescription()+"/n"+
@@ -29,5 +31,6 @@ public class UserMessage {
                     +"Deletion date: "+ user.getDeletionDate()+"\n"+"Games: \n"+str;
         }
 
-}
+}*/
+return "nooooo!!!";}
 }

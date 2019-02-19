@@ -1,8 +1,7 @@
 package com.organization.bootchampweb.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -24,6 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
+
 public class Game extends Item implements Serializable {
 
 
@@ -33,7 +33,7 @@ public class Game extends Item implements Serializable {
     @DecimalMin(value = "0.0", message="The price should not be less than 0")
     private float price;
     private String genre;
-    @JsonManagedReference
+    //////@JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "mod_id")
     private Set<Mod> mods;
