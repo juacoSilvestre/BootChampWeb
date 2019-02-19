@@ -10,4 +10,5 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     boolean existsByName(String name);
     Game findByName(String name);
+    Game findById(Long id);
 }

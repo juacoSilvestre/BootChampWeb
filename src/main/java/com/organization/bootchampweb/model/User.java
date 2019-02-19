@@ -1,5 +1,6 @@
 package com.organization.bootchampweb.model;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,10 +10,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Data
@@ -20,16 +18,10 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor// This tells Hibernate to make a table out of this class
+@NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class User extends BasedNamedEntity implements Serializable {
-/*
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "user_id", unique = true, nullable = false)
-    private Integer id;
-    @NotNull(message = "Name cannot be null")
-    private String name;
-*/
+
     @NotNull(message = "Email cannot be null")
     @Email(message = "invalid email format")
     private String email;
@@ -44,8 +36,14 @@ public class User extends BasedNamedEntity implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthdate;
 
+    //@JsonBackReference("user")
+    @JsonManagedReference("user")
+    // @JsonIgnore
+    @OneToMany(mappedBy = "users" ,cascade = CascadeType.ALL)
+    private Set<UserItem> userItems;
 
-  /*  @JsonBackReference //VER!! preventivo para evitar recursividad
+}
+/*  @JsonBackReference //VER!! preventivo para evitar recursividad
     @ManyToMany
     @JoinTable(
             name="UserAndGames",
@@ -53,10 +51,11 @@ public class User extends BasedNamedEntity implements Serializable {
             inverseJoinColumns=@JoinColumn(name="games_id", referencedColumnName="id"))
     private List<Game> games ;
     */
-
-
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userItem_id")
-    private List<UserItem> userItem;
-}
+/*
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "user_id", unique = true, nullable = false)
+    private Integer id;
+    @NotNull(message = "Name cannot be null")
+    private String name;
+*/

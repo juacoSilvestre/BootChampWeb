@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
+import java.util.List;
 
 
 @MappedSuperclass
@@ -16,5 +17,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public abstract class BasedNamedEntity extends BaseEntity implements Serializable {
    private String name;
+
 
 }
